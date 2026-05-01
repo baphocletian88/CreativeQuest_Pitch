@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creative Quest — Propuesta UDEM</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #0E0E1A;
+    --pu:     #5B4FCF;
+    --pu-l:   #8B7FFF;
+    --pu-x:   #EAE8FF;
+    --cy:     #0F9B8E;
+    --cy-x:   #E0F5F3;
+    --go:     #C8960A;
+    --go-x:   #FDF5DC;
+    --gr:     #2E7D4F;
+    --gr-x:   #E2F4EA;
+    --co:     #C84030;
+    --co-x:   #FDECEA;
+    --bg:     #FAFAF8;
+    --paper:  #FFFFFF;
+    --gh:     #777799;
+    --bd:     #E4E2F0;
+    --fm:     'DM Mono', monospace;
+    --fh:     'Playfair Display', serif;
+    --fb:     'DM Sans', sans-serif;
+  }
+
+  html { background: #E8E6F4; font-family: var(--fb); }
+
+  body {
+    max-width: 860px;
+    width: 100%;
+    min-height: 100vh;
+    margin: 0 auto;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+    position: relative;
+    overflow-x: hidden;
+    box-shadow: 0 0 40px rgba(0,0,0,.12);
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    html { background: white; }
+    body { width: 100%; margin: 0; box-shadow: none; }
+    .no-print { display: none !important; }
+    @page { size: A4; margin: 0; }
+  }
+
+  /* ── PRINT BUTTON ── */
+  .print-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: var(--pu);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 24px;
+    font-family: var(--fb);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(91,79,207,.4);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all .2s;
+    z-index: 100;
+  }
+  .print-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(91,79,207,.5); }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--ink);
+    padding: 44px 48px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(91,79,207,.35) 0%, transparent 70%);
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 30%;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(15,155,142,.2) 0%, transparent 70%);
+  }
+  .header-eyebrow {
+    font-family: var(--fm);
+    font-size: 11px;
+    letter-spacing: .18em;
+    color: var(--pu-l);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .header-title {
+    font-family: var(--fh);
+    font-size: 48px;
+    line-height: 1.1;
+    color: white;
+    margin-bottom: 6px;
+  }
+  .header-title em { color: var(--pu-l); font-style: italic; }
+  .header-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,.55);
+    margin-bottom: 24px;
+    font-weight: 300;
+  }
+  .header-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-family: var(--fm);
+    font-size: 9.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: .06em;
+    font-weight: 500;
+  }
+  .tag-pu { background: rgba(91,79,207,.25); color: var(--pu-l); }
+  .tag-cy { background: rgba(15,155,142,.2); color: #5ECCC4; }
+  .tag-go { background: rgba(200,150,10,.2); color: #E8C050; }
+  .tag-gr { background: rgba(46,125,79,.2); color: #70D490; }
+
+  /* ── BODY ── */
+  .body { padding: 36px 48px 40px; }
+
+  /* ── LEAD ── */
+  .lead {
+    font-family: var(--fh);
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink);
+    border-left: 3px solid var(--pu);
+    padding-left: 16px;
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+
+  /* ── SECTION LABEL ── */
+  .sec {
+    font-family: var(--fm);
+    font-size: 10.5px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--pu);
+    font-weight: 500;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sec::after { content: ''; flex: 1; height: 1px; background: var(--bd); }
+
+  /* ── 2-COL LAYOUT ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+
+  /* ── CARDS ── */
+  .card {
+    border: 1px solid var(--bd);
+    border-radius: 10px;
+    padding: 14px 16px;
+    background: var(--bg);
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-body { font-size: 13.5px; color: var(--gh); line-height: 1.55; }
+
+  /* ── STAT BLOCKS ── */
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+  .stat {
+    text-align: center;
+    padding: 14px 8px;
+    border-radius: 10px;
+    border: 1px solid var(--bd);
+  }
+  .stat-n { font-family: var(--fh); font-size: 30px; font-weight: 900; line-height: 1; }
+  .stat-l { font-size: 11px; color: var(--gh); margin-top: 4px; font-family: var(--fm); letter-spacing: .05em; }
+
+  /* ── MISSION STRIP ── */
+  .mission-strip { display: flex; gap: 6px; margin-bottom: 20px; }
+  .mission-card {
+    flex: 1;
+    border-radius: 8px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+  .mission-card .mn { font-size: 10px; font-family: var(--fm); font-weight: 700; letter-spacing: .08em; margin-bottom: 4px; opacity: .7; }
+  .mission-card .mt { font-size: 12px; font-weight: 700; line-height: 1.3; margin-bottom: 3px; }
+  .mission-card .ms { font-size: 10.5px; opacity: .65; line-height: 1.3; }
+
+  /* ── ARCHETYPE ROW ── */
+  .arch-row { display: flex; gap: 6px; margin-bottom: 20px; }
+  .arch {
+    flex: 1;
+    border-radius: 8px;
+    padding: 10px 8px;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,.06);
+  }
+  .arch-ico { font-size: 20px; margin-bottom: 4px; }
+  .arch-name { font-size: 11px; font-weight: 700; line-height: 1.3; }
+
+  /* ── CREDIT PILLS ── */
+  .cred-row { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .cred {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 8px;
+    padding: 8px 12px;
+    flex: 1;
+    min-width: 120px;
+  }
+  .cred-ico { font-size: 18px; }
+  .cred-name { font-size: 12px; font-weight: 700; }
+  .cred-desc { font-size: 11px; opacity: .7; margin-top: 1px; }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight {
+    background: var(--pu-x);
+    border: 1px solid rgba(91,79,207,.2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .highlight-title {
+    font-weight: 700;
+    font-size: 13.5px;
+    color: var(--pu);
+    margin-bottom: 5px;
+  }
+  .highlight-body { font-size: 13px; color: #3A3470; line-height: 1.6; }
+
+  /* ── PROCESS STEPS ── */
+  .steps { display: grid; grid-template-columns: repeat(5,1fr); gap: 6px; margin-bottom: 20px; }
+  .step {
+    text-align: center;
+    position: relative;
+  }
+  .step::after {
+    content: '→';
+    position: absolute;
+    right: -6px;
+    top: 14px;
+    font-size: 10px;
+    color: var(--bd);
+  }
+  .step:last-child::after { display: none; }
+  .step-n {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--pu);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 5px;
+    font-family: var(--fm);
+  }
+  .step-l { font-size: 11px; line-height: 1.4; color: var(--ink); font-weight: 600; }
+  .step-s { font-size: 10px; color: var(--gh); margin-top: 2px; line-height: 1.3; }
+
+  /* ── RUBRIC ── */
+  .rubric-row { display: grid; grid-template-columns: 2fr 1fr 3fr; gap: 0; margin-bottom: 2px; }
+  .rubric-d { font-size: 12px; font-weight: 600; padding: 5px 8px; background: var(--bg); border: 1px solid var(--bd); border-right: none; border-radius: 6px 0 0 6px; }
+  .rubric-p { font-size: 11.5px; font-weight: 700; padding: 5px 8px; background: var(--pu); color: white; text-align: center; border: 1px solid var(--pu); display: flex; align-items: center; justify-content: center; }
+  .rubric-c { font-size: 11.5px; color: var(--gh); padding: 5px 8px; background: var(--bg); border: 1px solid var(--bd); border-left: none; border-radius: 0 6px 6px 0; display: flex; align-items: center; }
+
+  /* ── TECH STACK ── */
+  .tech-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .tech-pill {
+    font-family: var(--fm);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--bd);
+    background: var(--bg);
+    color: var(--ink);
+    letter-spacing: .04em;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin: 0 48px;
+    border-top: 2px solid var(--ink);
+    padding: 14px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-left { font-family: var(--fh); font-size: 15px; font-style: italic; color: var(--gh); }
+  .footer-right { font-family: var(--fm); font-size: 10.5px; letter-spacing: .12em; color: var(--gh); text-align: right; }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid var(--bd); margin: 18px 0; }
+
+  /* ── OUTCOME ROW ── */
+  .outcome-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+  .outcome {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--bd);
+  }
+  .outcome-ico { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .outcome-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .outcome-body { font-size: 12px; color: var(--gh); line-height: 1.5; }
+
+  /* ── PIN NOTE ── */
+  .pin-note {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--go-x);
+    border: 1px solid rgba(200,150,10,.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+  }
+  .pin-note-ico { font-size: 20px; flex-shrink: 0; }
+  .pin-note-txt { font-size: 12.5px; color: #6A4800; line-height: 1.5; }
+
+  /* ── RESPONSIVE — TABLET (≤768px) ── */
+  @media (max-width: 768px) {
+    body { font-size: 14px; box-shadow: none; }
+    .header { padding: 32px 24px 28px; }
+    .header-title { font-size: 36px; }
+    .header-sub { font-size: 13px; }
+    .body { padding: 24px 20px 32px; }
+    .footer { margin: 0 20px; padding: 14px 0; }
+    .footer-left { font-size: 13px; }
+
+    /* Grids → single column */
+    .two-col { grid-template-columns: 1fr; gap: 12px; }
+    .outcome-row { grid-template-columns: 1fr; gap: 10px; }
+    .stat-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+    /* Mission strip → 2×3 grid */
+    .mission-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .arch-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+
+    /* Cred row → 2×2 */
+    .cred-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .cred { min-width: unset; }
+
+    /* Steps → 3+2 */
+    .steps { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .step::after { display: none; }
+
+    /* Rubric stacks */
+    .rubric-row { grid-template-columns: 1fr; }
+    .rubric-d { border-radius: 6px 6px 0 0; border-right: 1px solid var(--bd); border-bottom: none; }
+    .rubric-p { border-radius: 0; }
+    .rubric-c { border-radius: 0 0 6px 6px; border-left: 1px solid var(--bd); }
+
+    /* Tech pills wrap */
+    .tech-row { gap: 6px; }
+    .tech-pill { font-size: 10px; }
+  }
+
+  /* ── RESPONSIVE — MOBILE (≤480px) ── */
+  @media (max-width: 480px) {
+    .header { padding: 24px 16px 22px; }
+    .header-title { font-size: 28px; }
+    .header-eyebrow { font-size: 9.5px; }
+    .body { padding: 18px 16px 28px; }
+    .footer { margin: 0 16px; flex-direction: column; gap: 8px; text-align: center; }
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+    .stat-n { font-size: 28px; }
+    .arch-row { grid-template-columns: repeat(3, 1fr); }
+    .arch-ico { font-size: 18px; }
+    .arch-name { font-size: 9.5px; }
+    .mission-strip { grid-template-columns: 1fr 1fr; }
+    .cred-row { grid-template-columns: 1fr 1fr; }
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .highlight { padding: 12px 14px; }
+    .highlight-title { font-size: 12px; }
+    .highlight-body { font-size: 12px; }
+    .lead { font-size: 16px; }
+    .card-body { font-size: 12.5px; }
+  }
+
+  /* ── PRINT (A4) ── */
+  @media print {
+    html { background: white; }
+    body { max-width: 100%; width: 210mm; font-size: 11.5px; box-shadow: none; }
+    .header { padding: 28px 32px 24px; }
+    .header-title { font-size: 38px; }
+    .body { padding: 20px 32px 24px; }
+    .footer { margin: 0 32px; }
+    .two-col { grid-template-columns: 1fr 1fr !important; }
+    .outcome-row { grid-template-columns: 1fr 1fr !important; }
+    .mission-strip { display: flex !important; }
+    .arch-row { display: flex !important; }
+    .cred-row { display: flex !important; }
+    .steps { grid-template-columns: repeat(5,1fr) !important; }
+    .step::after { display: block !important; }
+    .rubric-row { grid-template-columns: 2fr 1fr 3fr !important; }
+    .rubric-d { border-radius: 6px 0 0 6px !important; border-right: none !important; border-bottom: 1px solid var(--bd) !important; }
+    .rubric-p { border-radius: 0 !important; }
+    .rubric-c { border-radius: 0 6px 6px 0 !important; border-left: none !important; }
+    .no-print { display: none !important; }
+    @page { size: A4; margin: 0; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- PRINT BUTTON -->
+<button class="print-btn no-print" onclick="window.print()">
+  🖨 Imprimir / Guardar PDF
+</button>
+
+<!-- ══ HEADER ═══════════════════════════════════════════════════════════ -->
+<div class="header">
+  <div class="header-eyebrow">Escuela de Arte y Diseño · UDEM · 2026</div>
+  <div class="header-title">Creative <em>Quest</em></div>
+  <div class="header-sub">Sistema de Admisión Gamificado — Propuesta para Departamento de Admisiones y Rectoría</div>
+  <div class="header-tags">
+    <span class="tag tag-pu">Prueba digital 90 min</span>
+    <span class="tag tag-cy">Tiempo real · Firebase</span>
+    <span class="tag tag-go">5 misiones creativas</span>
+    <span class="tag tag-gr">Evaluación sin sesgo</span>
+  </div>
+</div>
+
+<!-- ══ BODY ══════════════════════════════════════════════════════════════ -->
+<div class="body">
+
+  <!-- LEAD -->
+  <p class="lead">
+    El proceso de admisión más preciso, justo y carrera-agnóstico que puede ofrecer una escuela de arte y diseño — en 90 minutos, sin entrevistas presenciales obligatorias, con evaluación estandarizada y datos cualitativos únicos por candidato.
+  </p>
+
+  <!-- STATS -->
+  <div class="sec">Métricas del sistema</div>
+  <div class="stat-row">
+    <div class="stat" style="background:var(--pu-x);border-color:rgba(91,79,207,.2)">
+      <div class="stat-n" style="color:var(--pu)">90</div>
+      <div class="stat-l">minutos por sesión</div>
+    </div>
+    <div class="stat" style="background:var(--cy-x);border-color:rgba(15,155,142,.2)">
+      <div class="stat-n" style="color:var(--cy)">5</div>
+      <div class="stat-l">misiones creativas</div>
+    </div>
+    <div class="stat" style="background:var(--go-x);border-color:rgba(200,150,10,.2)">
+      <div class="stat-n" style="color:var(--go)">5</div>
+      <div class="stat-l">arquetipos de perfil</div>
+    </div>
+    <div class="stat" style="background:var(--gr-x);border-color:rgba(46,125,79,.2)">
+      <div class="stat-n" style="color:var(--gr)">∞</div>
+      <div class="stat-l">equipos simultáneos</div>
+    </div>
+  </div>
+
+  <!-- PROBLEMA / SOLUCIÓN -->
+  <div class="two-col">
+    <div class="card" style="border-color:rgba(200,64,48,.2);background:#FFF9F8">
+      <div class="card-title" style="color:var(--co)">⚠ El problema actual</div>
+      <div class="card-body">
+        Los procesos de admisión tradicionales en escuelas de arte dependen de portafolios previos — lo que sesga la selección hacia candidatos con acceso a educación artística previa, no hacia los de mayor potencial creativo natural.
+        <br><br>
+        La entrevista presencial no es escalable, es inconsistente entre evaluadores y no genera datos comparables.
+      </div>
+    </div>
+    <div class="card" style="border-color:rgba(91,79,207,.25);background:var(--pu-x)">
+      <div class="card-title" style="color:var(--pu)">✦ La propuesta</div>
+      <div class="card-body" style="color:#3A3470">
+        Una prueba gamificada de 90 minutos que mide <strong>potencial creativo en acción</strong>, no historial. Sin portafolio previo. Sin entrevista presencial obligatoria.
+        <br><br>
+        El candidato construye un universo de identidad completo (moodboard, look, espacio, objeto, historia) mientras el sistema captura 47+ señales evaluables en tiempo real.
+      </div>
+    </div>
+  </div>
+
+  <!-- ARQUETIPOS -->
+  <div class="sec">Los 5 arquetipos — el candidato elige su perfil</div>
+  <div class="arch-row">
+    <div class="arch" style="background:#0D0D1A;color:white">
+      <div class="arch-ico">⚡</div>
+      <div class="arch-name">Gamer<br>Futurista</div>
+    </div>
+    <div class="arch" style="background:#2A1A0A;color:#E8D0A0">
+      <div class="arch-ico">🎨</div>
+      <div class="arch-name">Artista<br>Bohemio</div>
+    </div>
+    <div class="arch" style="background:#0A1A2A;color:#80C8F0">
+      <div class="arch-ico">🏃</div>
+      <div class="arch-name">Deportista<br>Urbano</div>
+    </div>
+    <div class="arch" style="background:#1A1A1A;color:#C0C0D8">
+      <div class="arch-ico">🎵</div>
+      <div class="arch-name">Músico<br>Indie</div>
+    </div>
+    <div class="arch" style="background:#F5F8FA;color:#1A2A3A;border:1px solid #D0DDE8">
+      <div class="arch-ico">💡</div>
+      <div class="arch-name">Tech<br>Entrepreneur</div>
+    </div>
+  </div>
+
+  <!-- MISIONES -->
+  <div class="sec">Las 5 misiones en orden libre</div>
+  <div class="mission-strip">
+    <div class="mission-card" style="background:var(--pu-x);border:1px solid rgba(91,79,207,.2)">
+      <div class="mn" style="color:var(--pu)">M1 · 18 min</div>
+      <div class="mt" style="color:var(--ink)">Tu Identidad</div>
+      <div class="ms" style="color:var(--pu)">Moodboard · Paleta · Logo</div>
+    </div>
+    <div class="mission-card" style="background:var(--cy-x);border:1px solid rgba(15,155,142,.2)">
+      <div class="mn" style="color:var(--cy)">M2 · 15 min</div>
+      <div class="mt" style="color:var(--ink)">Tu Look</div>
+      <div class="ms" style="color:var(--cy)">Sistema RPG de vestuario</div>
+    </div>
+    <div class="mission-card" style="background:var(--go-x);border:1px solid rgba(200,150,10,.2)">
+      <div class="mn" style="color:var(--go)">M3 · 15 min</div>
+      <div class="mt" style="color:var(--ink)">Tu Espacio</div>
+      <div class="ms" style="color:var(--go)">Espacio · Elementos · Luz</div>
+    </div>
+    <div class="mission-card" style="background:var(--gr-x);border:1px solid rgba(46,125,79,.2)">
+      <div class="mn" style="color:var(--gr)">M4 · 15 min</div>
+      <div class="mt" style="color:var(--ink)">Tu Objeto</div>
+      <div class="ms" style="color:var(--gr)">Objeto icónico + propio</div>
+    </div>
+    <div class="mission-card" style="background:#FDF0F8;border:1px solid rgba(192,48,138,.2)">
+      <div class="mn" style="color:#C0308A">M5 · 15 min</div>
+      <div class="mt" style="color:var(--ink)">Tu Historia</div>
+      <div class="ms" style="color:#C0308A">4 rutas · Storyboard · UX</div>
+    </div>
+  </div>
+
+  <!-- CRÉDITOS -->
+  <div class="sec">Economía de créditos — perfil creativo emergente</div>
+  <div class="cred-row">
+    <div class="cred" style="background:var(--pu-x);border:1px solid rgba(91,79,207,.2)">
+      <div class="cred-ico">◆</div>
+      <div><div class="cred-name" style="color:var(--pu)">VISIÓN</div><div class="cred-desc">Pensar · Conceptualizar</div></div>
+    </div>
+    <div class="cred" style="background:var(--cy-x);border:1px solid rgba(15,155,142,.2)">
+      <div class="cred-ico">⬡</div>
+      <div><div class="cred-name" style="color:var(--cy)">FORMA</div><div class="cred-desc">Crear · Componer</div></div>
+    </div>
+    <div class="cred" style="background:var(--go-x);border:1px solid rgba(200,150,10,.2)">
+      <div class="cred-ico">★</div>
+      <div><div class="cred-name" style="color:var(--go)">NARRATIVA</div><div class="cred-desc">Contar · Argumentar</div></div>
+    </div>
+    <div class="cred" style="background:var(--gr-x);border:1px solid rgba(46,125,79,.2)">
+      <div class="cred-ico">⬟</div>
+      <div><div class="cred-name" style="color:var(--gr)">TÉCNICA</div><div class="cred-desc">Ejecutar · Producir</div></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- EVALUACIÓN -->
+  <div class="two-col" style="gap:16px">
+    <div>
+      <div class="sec">Rúbrica — 5 dimensiones carrera-agnósticas</div>
+      <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:14px">
+        <div class="rubric-row">
+          <div class="rubric-d">Pensamiento Divergente</div>
+          <div class="rubric-p">25%</div>
+          <div class="rubric-c">Originalidad e ideas inesperadas</div>
+        </div>
+        <div class="rubric-row">
+          <div class="rubric-d">Ejecución bajo Presión</div>
+          <div class="rubric-p">25%</div>
+          <div class="rubric-c">Decisión rápida con tiempo limitado</div>
+        </div>
+        <div class="rubric-row">
+          <div class="rubric-d">Sensibilidad Estética</div>
+          <div class="rubric-p">20%</div>
+          <div class="rubric-c">Criterio visual coherente y argumentado</div>
+        </div>
+        <div class="rubric-row">
+          <div class="rubric-d">Pensamiento Sistémico</div>
+          <div class="rubric-p">20%</div>
+          <div class="rubric-c">Las 5 misiones forman un universo</div>
+        </div>
+        <div class="rubric-row">
+          <div class="rubric-d">Comunicación de la Idea</div>
+          <div class="rubric-p">10%</div>
+          <div class="rubric-c">Articula y defiende sus decisiones</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span style="font-size:11px;padding:4px 11px;border-radius:4px;background:#FDE8E6;color:var(--co);font-weight:600">&lt;45 · No admitido</span>
+        <span style="font-size:11px;padding:4px 11px;border-radius:4px;background:#FFF0E0;color:var(--go);font-weight:600">45–59 · Lista espera</span>
+        <span style="font-size:11px;padding:4px 11px;border-radius:4px;background:var(--gr-x);color:var(--gr);font-weight:600">60–79 · Admitido</span>
+        <span style="font-size:11px;padding:4px 11px;border-radius:4px;background:var(--pu-x);color:var(--pu);font-weight:600">80–100 · Mención</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec">Flujo de sesión</div>
+      <div class="steps" style="grid-template-columns:repeat(5,1fr)">
+        <div class="step">
+          <div class="step-n">1</div>
+          <div class="step-l">Setup</div>
+          <div class="step-s">−30 min<br>dispositivos</div>
+        </div>
+        <div class="step">
+          <div class="step-n">2</div>
+          <div class="step-l">Arquetipo</div>
+          <div class="step-s">3–8 min<br>perfil</div>
+        </div>
+        <div class="step">
+          <div class="step-n">3</div>
+          <div class="step-l">Misiones</div>
+          <div class="step-s">65 min<br>libre</div>
+        </div>
+        <div class="step">
+          <div class="step-n">4</div>
+          <div class="step-l">Reflexión</div>
+          <div class="step-s">5 min<br>Tu Voz</div>
+        </div>
+        <div class="step">
+          <div class="step-n">5</div>
+          <div class="step-l">One-Pager</div>
+          <div class="step-s">7 min<br>veredicto</div>
+        </div>
+      </div>
+
+      <div class="sec" style="margin-top:14px">Tecnología — sin instalación</div>
+      <div class="tech-row">
+        <span class="tech-pill">HTML single-file</span>
+        <span class="tech-pill">Firebase Realtime DB</span>
+        <span class="tech-pill">Sin servidor propio</span>
+        <span class="tech-pill">Chrome · Firefox · Safari</span>
+        <span class="tech-pill">Responsive tablet + mobile</span>
+        <span class="tech-pill">Checkpoint automático</span>
+      </div>
+
+      <div class="pin-note">
+        <div class="pin-note-ico">🔐</div>
+        <div class="pin-note-txt">
+          <strong>Sistema de roles con PIN:</strong> Los evaluadores acceden con un PIN de 6 dígitos generado por el coordinador, almacenado en Firebase con expiración automática. Los aplicantes nunca ven el panel de evaluación.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIEMPO REAL -->
+  <div class="highlight">
+    <div class="highlight-title">🔴 EN VIVO — Sala de colaboración por equipo</div>
+    <div class="highlight-body">
+      El evaluador ve en tiempo real: arquetipo elegido, misiones completadas, créditos acumulados y razonamiento escrito de cada candidato — desde cualquier dispositivo con internet, incluso en sesiones remotas por Zoom. Múltiples equipos trabajan en paralelo en salas independientes. El coordinador tiene un Panel Maestro que consolida todas las salas activas en una sola pantalla.
+    </div>
+  </div>
+
+  <!-- ENTREGABLES -->
+  <div class="sec">Entregables — qué obtiene la institución</div>
+  <div class="outcome-row">
+    <div class="outcome">
+      <div class="outcome-ico">📄</div>
+      <div>
+        <div class="outcome-title">One-Pager por candidato</div>
+        <div class="outcome-body">Tarjeta de arquetipo con moodboard, look, espacio, objeto, historia, razonamiento creativo, créditos dominantes y veredicto del evaluador. Archivable en PDF o PNG.</div>
+      </div>
+    </div>
+    <div class="outcome">
+      <div class="outcome-ico">📊</div>
+      <div>
+        <div class="outcome-title">Puntaje ponderado estandarizado</div>
+        <div class="outcome-body">5 dimensiones con sliders 1–4, puntaje sobre 400 calculado automáticamente. Comparable entre evaluadores. Con criterio de veto automático.</div>
+      </div>
+    </div>
+    <div class="outcome">
+      <div class="outcome-ico">🎯</div>
+      <div>
+        <div class="outcome-title">Orientación vocacional específica</div>
+        <div class="outcome-body">Cruce de los 2 créditos dominantes × arquetipo genera 12+ perfiles vocacionales con carreras UDEM sugeridas. Dato independiente de la admisión.</div>
+      </div>
+    </div>
+    <div class="outcome">
+      <div class="outcome-ico">💬</div>
+      <div>
+        <div class="outcome-title">Razonamiento creativo escrito</div>
+        <div class="outcome-body">Cada decisión incluye justificación escrita del candidato ("¿por qué esta y no las otras?"). El evaluador ve el proceso, no solo el resultado.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /body -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">"Un taller bien diseñado es aquel que el aspirante no percibe como examen."</div>
+  <div class="footer-right">
+    CREATIVE QUEST v11<br>
+    Escuela de Arte y Diseño · UDEM · 2026<br>
+    Sistema único · Single-file HTML · Firebase
+  </div>
+</div>
+
+</body>
+</html>
